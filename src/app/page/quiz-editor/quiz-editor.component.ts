@@ -13,7 +13,7 @@ import { QuizService } from 'src/app/service/quiz.service';
 })
 export class QuizEditorComponent implements OnInit {
 
-  quiz$: BehaviorSubject<Quiz> = this.quizService.item$;
+  quiz$: BehaviorSubject<Quiz> = this.quizService.quizWithQuestions$;
 
   constructor(
     private quizService: QuizService,
@@ -23,13 +23,15 @@ export class QuizEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(
-      params => this.quizService.get(params.id)
+      // params => this.quizService.withQuestions(params.id)
+      params => this.quizService.wQuestions(params.id).then(() => {})
     );
   }
 
-  onSave(form: NgForm): void {
-    this.quizService.update(form.value);
-    this.router.navigate(['admin', 'quiz']);
+  onSave(form: NgForm, quiz: Quiz): void {
+    console.log(quiz);
+    // this.quizService.update(form.value);
+    // this.router.navigate(['admin', 'quiz']);
   }
 
 }
